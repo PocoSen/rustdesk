@@ -172,7 +172,12 @@ fn start_auto_update_check_(rx_msg: Receiver<UpdateMsg>) {
     }
 }
 
+const DISABLE_UPDATE_CHECK: bool = true; // 关闭更新
 fn check_update(manually: bool) -> ResultType<()> {
+    // 如果禁用更新检查，则直接返回Ok
+    if DISABLE_UPDATE_CHECK {
+        return Ok(());
+    }
     // On macOS, auto-update is handled by check_update_as_root() in the service process.
     // The shared check_update() path is only used for manual update checks from the GUI.
     #[cfg(target_os = "macos")]
